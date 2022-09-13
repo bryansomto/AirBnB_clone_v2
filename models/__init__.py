@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-create a unique /DBStorage/FileStorage instance for your application
+create a unique FileStorage instance for your application
 """
 import os
 
