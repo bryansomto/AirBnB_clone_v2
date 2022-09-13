@@ -1,19 +1,22 @@
 #!/usr/bin/python3
-'''A simple Flask web application.
-'''
+"""
+    Script that starts a Flask Web application that prints Hello HBNB
+"""
+
+
 from flask import Flask
-
-
 app = Flask(__name__)
-'''The Flask application instance.'''
-app.url_map.strict_slashes = False
 
 
-@app.route('/')
-def index():
-    '''The home page.'''
+@app.route('/', strict_slashes=False)
+def hello_hbnb():
+    """
+        function triggered by URL
+    """
     return 'Hello HBNB!'
 
-
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000')
+    """
+        make web page accessible
+    """
+    app.run(host="0.0.0.0")
