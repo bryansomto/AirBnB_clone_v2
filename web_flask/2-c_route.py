@@ -1,31 +1,40 @@
 #!/usr/bin/python3
-'''A simple Flask web application.
-'''
+"""
+    Script that starts a Flask Web application listening on
+    0.0.0.0:5000
+"""
+
+
 from flask import Flask
-
-
 app = Flask(__name__)
-'''The Flask application instance.'''
-app.url_map.strict_slashes = False
 
 
-@app.route('/')
-def index():
-    '''The home page.'''
+@app.route('/', strict_slashes=False)
+def hello_hbnb():
+    """
+        function triggered by URL /
+    """
     return 'Hello HBNB!'
 
 
-@app.route('/hbnb')
+@app.route('/hbnb', strict_slashes=False)
 def hbnb():
-    '''The hbnb page.'''
+    """
+        function triggered by URL /hbnb
+    """
     return 'HBNB'
 
 
-@app.route('/c/<text>')
-def c_page(text):
-    '''The c page.'''
-    return 'C {}'.format(text.replace('_', ' '))
-
+@app.route('/c/<text>', strict_slashes=False)
+def c_variable(text):
+    """
+        function triggered by URL /c/<text>
+    """
+    txt = text.replace("_", " ")
+    return 'C {}'.format(txt)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='5000')
+    """
+        make web page accessible
+    """
+    app.run(host="0.0.0.0")
