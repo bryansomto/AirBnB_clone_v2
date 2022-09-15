@@ -1,71 +1,34 @@
 #!/usr/bin/python3
-
-'''
-    All the test for the user model are implemented here.
-'''
-
-import os
-import unittest
-from models.base_model import BaseModel
+""" """
+from tests.test_models.test_base_model import test_basemodel
 from models.user import User
-from io import StringIO
-import sys
-import datetime
 
 
-@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                 "test only for FileStorage")
-class TestUser(unittest.TestCase):
-    '''
-        Testing User class
-    '''
+class test_User(test_basemodel):
+    """ """
 
-    def test_User_inheritance(self):
-        '''
-            tests that the User class Inherits from BaseModel
-        '''
-        new_user = User()
-        self.assertIsInstance(new_user, BaseModel)
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "User"
+        self.value = User
 
-    def test_User_attributes(self):
-        '''
-            Test the user attributes exist
-        '''
+    def test_first_name(self):
+        """ """
+        new = self.value()
+        self.assertNotEqual(type(new.first_name), str)
 
-        new_user = User()
-        self.assertTrue("email" in new_user.__dir__())
-        self.assertTrue("first_name" in new_user.__dir__())
-        self.assertTrue("last_name" in new_user.__dir__())
-        self.assertTrue("password" in new_user.__dir__())
+    def test_last_name(self):
+        """ """
+        new = self.value()
+        self.assertNotEqual(type(new.last_name), str)
 
-    def test_type_email(self):
-        '''
-            Test the type of name
-        '''
-        new = User()
-        name = getattr(new, "email")
-        self.assertIsInstance(name, str)
+    def test_email(self):
+        """ """
+        new = self.value()
+        self.assertNotEqual(type(new.email), str)
 
-    def test_type_first_name(self):
-        '''
-            Test the type of name
-        '''
-        new = User()
-        name = getattr(new, "first_name")
-        self.assertIsInstance(name, str)
-
-    def test_type_last_name(self):
-        '''
-            Test the type of last_name
-        '''
-        new = User()
-        name = getattr(new, "last_name")
-        self.assertIsInstance(name, str)
-
-    def test_type_password(self):
-        '''
-            Test the type of password
-        '''
-        new = User()
-        name = getattr(new, "password")
-        self.assertIsInstance(name, str)
+    def test_password(self):
+        """ """
+        new = self.value()
+        self.assertNotEqual(type(new.password), str)

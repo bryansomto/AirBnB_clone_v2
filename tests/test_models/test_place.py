@@ -1,126 +1,70 @@
 #!/usr/bin/python3
+""" Test module for place.py file. """
 
-'''
-    All the test for the user model are implemented here.
-'''
-
-import os
-import unittest
-from models.base_model import BaseModel
+from tests.test_models.test_base_model import test_basemodel
 from models.place import Place
 
 
-@unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                 "test only for FileStorage")
-class TestUser(unittest.TestCase):
-    '''
-        Testing Place class
-    '''
+class test_Place(test_basemodel):
+    """ Test class for place.py """
 
-    def setUp(self):
-        '''
-            Creates an instance for place.
-        '''
-        self.new_place = Place()
+    def __init__(self, *args, **kwargs):
+        """ test_Place class constructor"""
+        super().__init__(*args, **kwargs)
+        self.name = "Place"
+        self.value = Place
 
-    def TearDown(self):
-        pass
+    def test_city_id(self):
+        """ Tests the city id """
+        new = self.value()
+        self.assertNotEqual(type(new.city_id), str)
 
-    def test_Place_inheritance(self):
-        '''
-            tests that the City class Inherits from BaseModel
-        '''
+    def test_user_id(self):
+        """ Tests the user id"""
+        new = self.value()
+        self.assertNotEqual(type(new.user_id), str)
 
-        self.assertIsInstance(self.new_place, BaseModel)
+    def test_name(self):
+        """ Tests the name"""
+        new = self.value()
+        self.assertNotEqual(type(new.name), str)
 
-    def test_Place_attributes(self):
-        '''
-            Checks that the attribute exist.
-        '''
-        self.assertTrue("city_id" in self.new_place.__dir__())
-        self.assertTrue("user_id" in self.new_place.__dir__())
-        self.assertTrue("description" in self.new_place.__dir__())
-        self.assertTrue("name" in self.new_place.__dir__())
-        self.assertTrue("number_rooms" in self.new_place.__dir__())
-        self.assertTrue("max_guest" in self.new_place.__dir__())
-        self.assertTrue("price_by_night" in self.new_place.__dir__())
-        self.assertTrue("latitude" in self.new_place.__dir__())
-        self.assertTrue("longitude" in self.new_place.__dir__())
-        self.assertTrue("amenity_ids" in self.new_place.__dir__())
+    def test_description(self):
+        """ Tests the description """
+        new = self.value()
+        self.assertNotEqual(type(new.description), str)
 
-    def test_type_longitude(self):
-        '''
-            Test the type of longitude.
-        '''
-        longitude = getattr(self.new_place, "longitude")
-        self.assertIsInstance(longitude, float)
+    def test_number_rooms(self):
+        """ Tests the number of rooms"""
+        new = self.value()
+        self.assertNotEqual(type(new.number_rooms), int)
 
-    def test_type_latitude(self):
-        '''
-            Test the type of latitude
-        '''
-        latitude = getattr(self.new_place, "latitude")
-        self.assertIsInstance(latitude, float)
+    def test_number_bathrooms(self):
+        """ Tests number of bathrooms"""
+        new = self.value()
+        self.assertNotEqual(type(new.number_bathrooms), int)
 
-    def test_type_amenity(self):
-        '''
-            Test the type of latitude
-        '''
-        amenity = getattr(self.new_place, "amenity_ids")
-        self.assertIsInstance(amenity, list)
+    def test_max_guest(self):
+        """ Tests the maximum number of guests"""
+        new = self.value()
+        self.assertNotEqual(type(new.max_guest), int)
 
-    def test_type_price_by_night(self):
-        '''
-            Test the type of price_by_night
-        '''
-        price_by_night = getattr(self.new_place, "price_by_night")
-        self.assertIsInstance(price_by_night, int)
+    def test_price_by_night(self):
+        """ Tests the price per night """
+        new = self.value()
+        self.assertNotEqual(type(new.price_by_night), int)
 
-    def test_type_max_guest(self):
-        '''
-            Test the type of max_guest
-        '''
-        max_guest = getattr(self.new_place, "max_guest")
-        self.assertIsInstance(max_guest, int)
+    def test_latitude(self):
+        """ Tests the latitude of the location """
+        new = self.value()
+        self.assertNotEqual(type(new.latitude), float)
 
-    def test_type_number_bathrooms(self):
-        '''
-            Test the type of number_bathrooms
-        '''
-        number_bathrooms = getattr(self.new_place, "number_bathrooms")
-        self.assertIsInstance(number_bathrooms, int)
+    def test_longitude(self):
+        """ Tests longitude of house location """
+        new = self.value()
+        self.assertNotEqual(type(new.latitude), float)
 
-    def test_type_number_rooms(self):
-        '''
-            Test the type of number_bathrooms
-        '''
-        number_rooms = getattr(self.new_place, "number_rooms")
-        self.assertIsInstance(number_rooms, int)
-
-    def test_type_description(self):
-        '''
-            Test the type of description
-        '''
-        description = getattr(self.new_place, "description")
-        self.assertIsInstance(description, str)
-
-    def test_type_name(self):
-        '''
-            Test the type of name
-        '''
-        name = getattr(self.new_place, "name")
-        self.assertIsInstance(name, str)
-
-    def test_type_user_id(self):
-        '''
-            Test the type of user_id
-        '''
-        user_id = getattr(self.new_place, "user_id")
-        self.assertIsInstance(user_id, str)
-
-    def test_type_city_id(self):
-        '''
-            Test the type of city_id
-        '''
-        city_id = getattr(self.new_place, "city_id")
-        self.assertIsInstance(city_id, str)
+    def test_amenity_ids(self):
+        """ Tests the amenity id """
+        new = self.value()
+        self.assertEqual(type(new.amenity_ids), list)

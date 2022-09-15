@@ -8,6 +8,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
+import shlex
 
 
 class FileStorage:
@@ -21,21 +22,21 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """Returns all the objects
-        If a class is specified, the method only
-        returns the objects of same type.
+        """returns a dictionary
+        Return:
+            returns a dictionary of __object
         """
-
+        dic = {}
         if cls:
-            same_type = dict()
-
-            for key, obj in self.__objects.items():
-                if obj.__class__ == cls:
-                    same_type[key] = obj
-
-            return same_type
-
-        return self.__objects
+            dictionary = self.__objects
+            for key in dictionary:
+                partition = key.replace('.', ' ')
+                partition = shlex.split(partition)
+                if (partition[0] == cls.__name__):
+                    dic[key] = self.__objects[key]
+            return (dic)
+        else:
+            return self.__objects
 
     def new(self, obj):
         """sets __object to given obj
@@ -67,15 +68,13 @@ class FileStorage:
             pass
 
     def delete(self, obj=None):
-        """Delete obj from __objects if it's inside
+        """ delete an existing element
         """
         if obj:
             key = "{}.{}".format(type(obj).__name__, obj.id)
-
-            if self.__objects[key]:
-                del self.__objects[key]
-                self.save()
+            del self.__objects[key]
 
     def close(self):
-        """Deserialize JSON file to objects. Call the reload method."""
+        """ calls reload()
+        """
         self.reload()

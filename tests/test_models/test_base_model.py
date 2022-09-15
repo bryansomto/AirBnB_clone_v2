@@ -1,159 +1,114 @@
 #!/usr/bin/python3
+""" Module used to test  the base model """
 
-'''
-    All the test for the base_model are implemented here.
-'''
-
-import unittest
 import os
-from models.base_model import BaseModel
-from io import StringIO
-import sys
+import json
+import unittest
 import datetime
+from models.base_model import BaseModel
+from uuid import UUID
 
 
-class TestBase(unittest.TestCase):
-    '''
-        Testing the base class model.
-    '''
+class test_basemodel(unittest.TestCase):
+    """ Test class for base model """
 
+    def __init__(self, *args, **kwargs):
+        """ Constructor for test_basemodel class """
+        super().__init__(*args, **kwargs)
+        self.name = 'BaseModel'
+        self.value = BaseModel
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
     def setUp(self):
-        '''
-            Initializing instance.
-        '''
-        self.my_model = BaseModel()
-        self.my_model.name = "Binita Rai"
+        """ """
+        pass
 
-    def TearDown(self):
-        '''
-            Removing instance.
-        '''
-        del self.my_model
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
+    def tearDown(self):
+        try:
+            os.remove('file.json')
+        except Exception:
+            pass
 
-    def test_id_type(self):
-        '''
-            Checks that the type of the id is string.
-        '''
-        self.assertEqual("<class 'str'>", str(type(self.my_model.id)))
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
+    def test_default(self):
+        """ """
+        i = self.value()
+        self.assertEqual(type(i), self.value)
 
-    def test_ids_differ(self):
-        '''
-            Checks that the ids between two instances are different.
-        '''
-        new_model = BaseModel()
-        self.assertNotEqual(new_model.id, self.my_model.id)
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
+    def test_kwargs(self):
+        """ """
+        i = self.value()
+        copy = i.to_dict()
+        new = BaseModel(**copy)
+        self.assertFalse(new is i)
 
-    def test_name(self):
-        '''
-            Checks that an attribute can be added.
-        '''
-        self.assertEqual("Binita Rai", self.my_model.name)
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
+    def test_kwargs_int(self):
+        """ """
+        i = self.value()
+        copy = i.to_dict()
+        copy.update({1: 2})
+        with self.assertRaises(TypeError):
+            new = BaseModel(**copy)
 
-    def test_a_updated_created_equal(self):
-        '''
-            Checks that both dates are equal.
-        '''
-        self.assertEqual(self.my_model.updated_at.year,
-                         self.my_model.created_at.year)
-
-    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
-                     "Don't test if not FileStorage storing")
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
     def test_save(self):
-        '''
-            Checks that after updating the instance; the dates differ in the
-            updated_at attribute.
-        '''
-        old_update = self.my_model.updated_at
-        self.my_model.save()
-        self.assertNotEqual(self.my_model.updated_at, old_update)
+        """ Testing save """
+        i = self.value()
+        i.save()
+        key = self.name + "." + i.id
+        with open('file.json', 'r') as f:
+            j = json.load(f)
+            self.assertEqual(j[key], i.to_dict())
 
-    def test_str_overide(self):
-        '''
-            Checks that the right message gets printed.
-        '''
-        backup = sys.stdout
-        inst_id = self.my_model.id
-        capture_out = StringIO()
-        sys.stdout = capture_out
-        print(self.my_model)
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
+    def test_str(self):
+        """ """
+        i = self.value()
+        self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
+                         i.__dict__))
 
-        cap = capture_out.getvalue().split(" ")
-        self.assertEqual(cap[0], "[BaseModel]")
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
+    def test_todict(self):
+        """ """
+        i = self.value()
+        n = i.to_dict()
+        self.assertEqual(i.to_dict(), n)
 
-        self.assertEqual(cap[1], "({})".format(inst_id))
-        sys.stdout = backup
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
+    def test_kwargs_none(self):
+        """ """
+        n = {None: None}
+        with self.assertRaises(TypeError):
+            new = self.value(**n)
 
-    def test_to_dict_type(self):
-        '''
-            Checks that the to_dict method return type.
-        '''
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
+    def test_kwargs_one(self):
+        """ """
+        n = {'Name': 'test'}
+        new = self.value(**n)
+        self.assertRaises(KeyError)
 
-        self.assertEqual("<class 'dict'>",
-                         str(type(self.my_model.to_dict())))
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
+    def test_id(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.id), str)
 
-    def test_to_dict_class(self):
-        '''
-            Checks that the __class__ key exists.
-        '''
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
+    def test_created_at(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.created_at), datetime.datetime)
 
-        self.assertEqual("BaseModel", (self.my_model.to_dict())["__class__"])
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "FileStorage")
+    def test_updated_at(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.updated_at), datetime.datetime)
 
-    def test_to_dict_type_updated_at(self):
-        '''
-            Checks the type of the value of updated_at.
-        '''
-        self.assertEqual("<class 'str'>",
-                         str(type((self.my_model.to_dict())["updated_at"])))
 
-    def test_to_dict_type_created_at(self):
-        '''
-            Checks the type of the value of created_at.
-        '''
-        tmp = self.my_model.to_dict()
-        self.assertEqual("<class 'str'>", str(type(tmp["created_at"])))
-
-    def test_kwargs_instantiation(self):
-        '''
-            Test that an instance is created using the
-            key value pair.
-        '''
-        my_model_dict = self.my_model.to_dict()
-        new_model = BaseModel(**my_model_dict)
-        self.assertEqual(new_model.id, self.my_model.id)
-
-    def test_type_created_at(self):
-        '''
-            Test that the new_model's updated_at
-            data type is datetime.
-        '''
-        my_model_dict = self.my_model.to_dict()
-        new_model = BaseModel(my_model_dict)
-        self.assertTrue(isinstance(new_model.created_at, datetime.datetime))
-
-    def test_type_updated_at(self):
-        '''
-            Test that the new_model's created_at
-            data type is datetime.
-        '''
-        my_model_dict = self.my_model.to_dict()
-        new_model = BaseModel(my_model_dict)
-        self.assertTrue(isinstance(new_model.updated_at, datetime.datetime))
-
-    def test_compare_dict(self):
-        '''
-            Test that the new_model's and my_model's
-            dictionary values are same.
-        '''
-        my_model_dict = self.my_model.to_dict()
-        new_model = BaseModel(**my_model_dict)
-        new_model_dict = new_model.to_dict()
-        self.assertEqual(my_model_dict, new_model_dict)
-
-    def test_instance_diff(self):
-        '''
-            Test that the my_model and new_model are
-            not the same instance.
-        '''
-        my_model_dict = self.my_model.to_dict()
-        new_model = BaseModel(my_model_dict)
-        self.assertNotEqual(self.my_model, new_model)
+if __name__ == "__main__":
+    unittest.main()

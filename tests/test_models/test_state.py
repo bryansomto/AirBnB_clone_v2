@@ -1,27 +1,20 @@
 #!/usr/bin/python3
-'''
-    Contain tests for the state module.
-'''
-import unittest
-from models.base_model import BaseModel
+""" Module that tests file: state.py """
+
+from tests.test_models.test_base_model import test_basemodel
 from models.state import State
 
 
-class TestState(unittest.TestCase):
-    '''
-        Test the State class.
-    '''
+class test_state(test_basemodel):
+    """ Class that tests the state.py"""
 
-    def test_State_inheritence(self):
-        '''
-            Test that State class inherits from BaseModel.
-        '''
-        new_state = State()
-        self.assertIsInstance(new_state, BaseModel)
+    def __init__(self, *args, **kwargs):
+        """ Constructor for the test_state class """
+        super().__init__(*args, **kwargs)
+        self.name = "State"
+        self.value = State
 
-    def test_State_attributes(self):
-        '''
-            Test that State class contains the attribute `name`.
-        '''
-        new_state = State()
-        self.assertTrue("name" in new_state.__dir__())
+    def test_name3(self):
+        """ More testing of state name"""
+        new = self.value()
+        self.assertNotEqual(type(new.name), str)

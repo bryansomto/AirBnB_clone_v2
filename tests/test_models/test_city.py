@@ -1,28 +1,24 @@
-  
 #!/usr/bin/python3
-
-'''
-    All the test for the user model are implemented here.
-'''
-
-import unittest
-from models.base_model import BaseModel
+""" """
+from tests.test_models.test_base_model import test_basemodel
 from models.city import City
 
 
-class TestUser(unittest.TestCase):
-    '''
-        Testing User class
-    '''
+class test_City(test_basemodel):
+    """ """
 
-    def test_City_inheritance(self):
-        '''
-            tests that the City class Inherits from BaseModel
-        '''
-        new_city = City()
-        self.assertIsInstance(new_city, BaseModel)
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "City"
+        self.value = City
 
-    def test_User_attributes(self):
-        new_city = City()
-        self.assertTrue("state_id" in new_city.__dir__())
-        self.assertTrue("name" in new_city.__dir__())
+    def test_state_id(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.state_id), str)
+
+    def test_name(self):
+        """ """
+        new = self.value()
+        self.assertEqual(type(new.name), str)
