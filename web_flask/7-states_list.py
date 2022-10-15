@@ -15,7 +15,7 @@ def close_storage(exc):
 
 @app.route('/states_list')
 def states_list():
-    """ 
+    """
     Display a HTML page: (inside the tag BODY)
     - displays all State objects in DBStorage.
     """
