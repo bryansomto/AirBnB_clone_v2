@@ -71,14 +71,15 @@ class DBStorage:
             self.session.delete(obj)
 
     def reload(self):
-        """configuration
-        """
+        """ configuration """
         Base.metadata.create_all(self.__engine)
         sec = sessionmaker(bind=self.__engine, expire_on_commit=False)
         Session = scoped_session(sec)
         self.__session = Session()
 
     def close(self):
-        """ calls remove()
+        """ 
+        calls remove() on the private session attribute
+        or close() on the class Session
         """
         self.__session.close()
