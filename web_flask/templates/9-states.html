@@ -4,7 +4,7 @@
         <TITLE>HBNB</TITLE>
     </HEAD>
     <BODY>
-		{% if id is defined %}
+		{% if valid %}
 		{% for state in states if id == state.id %}
 		<H1>State: {{ state.name }}</H1>
 		<H3>Cities:</H3>
@@ -14,7 +14,7 @@
 			{% endfor %}
 		</UL>
 		{% endfor %}
-		{% elif id is undefined %}
+		{% elif valid is undefined %}
 		<H1>States</H1>
         <UL>
 			{% for state in states | sort(attribute="name") %}

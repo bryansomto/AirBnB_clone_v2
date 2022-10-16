@@ -29,8 +29,8 @@ def states_id(id):
     states = storage.all(State).values()
     for state in states:
         if state.id == id:
-            return render_template("9-states.html", states=states, id=id)
-        return render_template("9-states.html", states=states, id=id)
+            return render_template("9-states.html", states=states, id=id, valid=True)
+        return render_template("9-states.html", states=states, valid=False)
 
 
 if __name__ == "__main__":
