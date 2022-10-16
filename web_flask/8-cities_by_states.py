@@ -13,11 +13,11 @@ def close_storage(exc):
     storage.close()
 
 
-@app.route('/states_list')
-def states_list():
+@app.route('/cities_by_states')
+def cities_by_states():
     """
     Display a HTML page: (inside the tag BODY)
-    - displays all State objects in DBStorage.
+    - displays all Cities in State objects in DBStorage.
     """
     states = storage.all(State).values()
     return render_template("8-cities_by_states.html", states=states)
