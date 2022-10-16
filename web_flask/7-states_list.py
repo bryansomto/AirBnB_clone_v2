@@ -19,8 +19,8 @@ def states_list():
     Display a HTML page: (inside the tag BODY)
     - displays all State objects in DBStorage.
     """
-    states = storage.all(States).values()
-    return render_templates("7-states_list.html", states=states)
+    states = storage.all(State).values()
+    return render_template("7-states_list.html", states=states)
 
 
 if __name__ == "__main__":

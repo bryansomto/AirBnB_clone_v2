@@ -30,7 +30,7 @@ class Place(BaseModel, Base):
         number_bathrooms: number of bathrooms in int
         max_guest: maximum guest in int
         price_by_night:: pice for a staying in int
-        latitude: latitude in flaot
+        latitude: latitude in float
         longitude: longitude in float
         amenity_ids: list of Amenity ids
     """
