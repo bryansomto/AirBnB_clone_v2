@@ -19,18 +19,17 @@ def states():
     Display a HTML page: (inside the tag BODY)
     - displays all States in DBStorage.
     """
-    states = storage.all(State).values()
-    return render_template("9-states.html", states=states)
+    states = storage.all("State")
+    return render_template("9-states.html", state=states)
 
 
 @app.route("/states/<id>")
 def states_id(id):
     """Displays an HTML page with info about <id>, if it exists."""
-    states = storage.all(State).values()
-    for state in states:
+    for state in storage.all("State").values():
         if state.id == id:
-            return render_template("9-states.html", states=states, id=id, valid=True)
-        return render_template("9-states.html", states=states, valid=False)
+            return render_template("9-states.html", state=state)
+    return render_template("9-states.html")
 
 
 if __name__ == "__main__":
